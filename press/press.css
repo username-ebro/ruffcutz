@@ -1,0 +1,176 @@
+/* press.css — press room + release document styling. Loads after style.css. */
+
+.pr-main {
+  background: #e9e9e9;
+  padding: 50px 0 70px;
+  min-height: 60vh;
+}
+
+/* ---- shared bits ---- */
+.pr-kicker {
+  font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+  margin-bottom: 14px;
+}
+.pr-rule {
+  height: 3px;
+  background: #000;
+  width: 64px;
+  margin: 20px 0 28px;
+}
+
+/* ---- release document ---- */
+.pr-release {
+  max-width: 760px;
+  background: #fff;
+  padding: 56px 60px 44px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+.pr-back {
+  margin-bottom: 26px;
+  font-size: 13px;
+}
+.pr-back a { color: #777; text-decoration: none; }
+.pr-back a:hover { color: #000; }
+
+.pr-headline {
+  font-size: 30px;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #0a0a0a;
+  margin-bottom: 12px;
+}
+.pr-subhead {
+  font-size: 17px;
+  font-style: italic;
+  color: #555;
+  line-height: 1.5;
+}
+
+.pr-body p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: #222;
+  margin-bottom: 18px;
+}
+.pr-dateline {
+  font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: #000;
+}
+
+/* ---- embedded media ---- */
+.pr-media {
+  margin: 30px 0;
+}
+.pr-media video {
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+  background: #000;
+}
+.pr-media-caption {
+  font-size: 13px;
+  color: #777;
+  font-style: italic;
+  margin-top: 8px;
+}
+.pr-media-link {
+  margin-top: 6px;
+  font-size: 14px;
+}
+.pr-media-link a { color: #000; font-weight: 600; }
+
+/* ---- about + contact ---- */
+.pr-about {
+  margin-top: 36px;
+  padding-top: 26px;
+  border-top: 1px solid #e2e2e2;
+}
+.pr-about h3 {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  color: #000;
+}
+.pr-about p { font-size: 15px; color: #444; line-height: 1.7; }
+
+.pr-contact { margin-top: 26px; }
+.pr-contact-label {
+  font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: #888;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.pr-contact p:last-child { font-size: 15px; color: #222; }
+
+.pr-end {
+  text-align: center;
+  letter-spacing: 6px;
+  color: #aaa;
+  margin-top: 34px;
+  font-weight: 700;
+}
+
+/* ---- archive ---- */
+.pr-archive {
+  max-width: 760px;
+  background: #fff;
+  padding: 50px 56px 44px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+.pr-archive-title { font-size: 30px; font-weight: 800; color: #0a0a0a; }
+.pr-archive-blurb { color: #666; margin-top: 10px; font-size: 16px; }
+
+.pr-list { list-style: none; }
+.pr-list-item { border-top: 1px solid #e6e6e6; }
+.pr-list-item:last-child { border-bottom: 1px solid #e6e6e6; }
+.pr-list-link {
+  display: block;
+  padding: 22px 6px;
+  text-decoration: none;
+  transition: background 0.15s ease, padding-left 0.15s ease;
+}
+.pr-list-link:hover { background: #fafafa; padding-left: 14px; }
+.pr-list-date {
+  display: block;
+  font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #999;
+  margin-bottom: 6px;
+}
+.pr-list-headline {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.3;
+}
+.pr-list-subhead {
+  display: block;
+  font-size: 15px;
+  font-style: italic;
+  color: #666;
+  margin-top: 4px;
+}
+.pr-list-empty { padding: 30px 6px; color: #999; }
+
+@media (max-width: 768px) {
+  .pr-release, .pr-archive { padding: 34px 24px; }
+  .pr-headline, .pr-archive-title { font-size: 24px; }
+}

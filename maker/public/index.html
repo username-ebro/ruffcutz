@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruff Cutz — Press-Release Maker</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1a1a1a; background: #f5f5f5; line-height: 1.6; }
+    header { background: #000; color: #fff; padding: 18px 0; }
+    .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+    header h1 { font-size: 20px; font-weight: 700; }
+    header .sub { font-size: 13px; color: #aaa; font-weight: 400; }
+    main { padding: 32px 0 64px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+    .card { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+    h2 { font-size: 16px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; color: #000; }
+    label { display: block; font-weight: 600; font-size: 14px; margin: 16px 0 6px; }
+    label:first-of-type { margin-top: 0; }
+    .hint { font-weight: 400; color: #888; font-size: 12px; }
+    input[type=text], input[type=url], input[type=date], textarea, select {
+      width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 4px; font-size: 15px; font-family: inherit; background: #fff;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: #000; }
+    textarea { resize: vertical; }
+    .tones { display: flex; gap: 8px; }
+    .tones label { flex: 1; margin: 0; border: 2px solid #ddd; border-radius: 6px; padding: 10px; text-align: center; cursor: pointer; font-weight: 600; font-size: 13px; }
+    .tones input { position: absolute; opacity: 0; }
+    .tones label.on { border-color: #000; background: #000; color: #fff; }
+    .tone-desc { font-size: 12px; color: #888; margin-top: 8px; min-height: 32px; }
+    button { margin-top: 22px; width: 100%; background: #000; color: #fff; border: none; padding: 14px; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer; letter-spacing: .5px; }
+    button:hover { background: #333; }
+    button:disabled { background: #999; cursor: wait; }
+    .result-empty { color: #999; font-size: 14px; text-align: center; padding: 40px 10px; }
+    .result-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 10px; flex-wrap: wrap; }
+    .result-head a { font-size: 13px; font-weight: 600; color: #000; }
+    iframe { width: 100%; height: 560px; border: 1px solid #ddd; border-radius: 4px; background: #fff; }
+    .err { background: #fff2f2; border: 1px solid #f0bcbc; color: #a11; padding: 12px; border-radius: 6px; font-size: 14px; white-space: pre-wrap; }
+    .ok-note { font-size: 13px; color: #2a7a35; margin-bottom: 10px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Ruff Cutz Press-Release Maker <span class="sub">— satirical yet unironic</span></h1>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid">
+      <!-- FORM -->
+      <section class="card">
+        <h2>New Release</h2>
+        <form id="form">
+          <label for="subject">What are we announcing? <span class="hint">required</span></label>
+          <textarea id="subject" rows="3" placeholder="e.g. We posted an advertisement to Instagram about our new single."></textarea>
+
+          <label for="facts">Key facts <span class="hint">optional — single name, album, dates, links, numbers</span></label>
+          <textarea id="facts" rows="4" placeholder="e.g. New single off our hit album released August 30. The ad is an 83-second video. Available on Bandcamp."></textarea>
+
+          <label>Tone</label>
+          <div class="tones" id="tones">
+            <label data-t="dry"><input type="radio" name="tone" value="dry">Dry</label>
+            <label data-t="balanced" class="on"><input type="radio" name="tone" value="balanced" checked>House</label>
+            <label data-t="unhinged"><input type="radio" name="tone" value="unhinged">Unhinged</label>
+          </div>
+          <div class="tone-desc" id="toneDesc"></div>
+
+          <div class="row2">
+            <div>
+              <label for="date">Dateline date</label>
+              <input type="date" id="date">
+            </div>
+            <div>
+              <label for="media">Embed video <span class="hint">optional</span></label>
+              <select id="media"><option value="">(none)</option></select>
+            </div>
+          </div>
+
+          <label for="ig">Instagram post URL <span class="hint">optional</span></label>
+          <input type="url" id="ig" placeholder="https://www.instagram.com/ruff_cutz_collective">
+
+          <label for="caption">Video caption <span class="hint">optional</span></label>
+          <input type="text" id="caption" placeholder="The 83-second creative, as deployed.">
+
+          <button type="submit" id="go">Generate &amp; Publish</button>
+        </form>
+      </section>
+
+      <!-- RESULT -->
+      <section class="card">
+        <h2>Preview</h2>
+        <div id="result"><p class="result-empty">Your generated release will appear here, published into <code>press/</code> and ready to commit.</p></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const TONE_DESC = {
+      dry: "Bone-dry. Maximum corporate flatness — comedy entirely in the deadpan mismatch.",
+      balanced: "The house default. Straight newswire, self-referential absurdity underneath.",
+      unhinged: "Never breaks character, but the claims escalate into grandiosity.",
+    };
+    const $ = (id) => document.getElementById(id);
+    $("date").value = new Date().toISOString().slice(0, 10);
+
+    // Tone toggle styling + description
+    const tones = $("tones");
+    function syncTone() {
+      const v = tones.querySelector("input:checked").value;
+      tones.querySelectorAll("label").forEach((l) => l.classList.toggle("on", l.dataset.t === v));
+      $("toneDesc").textContent = TONE_DESC[v];
+    }
+    tones.addEventListener("change", syncTone);
+    syncTone();
+
+    // Populate media dropdown
+    fetch("/api/media").then((r) => r.json()).then((d) => {
+      const sel = $("media");
+      (d.media || []).forEach((m) => {
+        const o = document.createElement("option");
+        o.value = JSON.stringify({ src: m.file, poster: m.poster });
+        o.textContent = m.name;
+        sel.appendChild(o);
+      });
+      if ((d.media || []).length) sel.selectedIndex = 1; // auto-pick the first video
+    });
+
+    $("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const subject = $("subject").value.trim();
+      const result = $("result");
+      if (!subject) { result.innerHTML = '<div class="err">Tell me what we are announcing first.</div>'; return; }
+      const go = $("go");
+      go.disabled = true; go.textContent = "Writing the release…";
+      result.innerHTML = '<p class="result-empty">Generating with Claude…</p>';
+
+      let media = null;
+      if ($("media").value) {
+        const m = JSON.parse($("media").value);
+        media = { src: m.src, poster: m.poster, caption: $("caption").value.trim(), instagram_url: $("ig").value.trim() };
+      }
+      const payload = {
+        subject,
+        facts: $("facts").value.trim(),
+        tone: tones.querySelector("input:checked").value,
+        date: $("date").value,
+        media,
+      };
+      try {
+        const res = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || "Generation failed");
+        const url = "/press/" + data.fileName + "?t=" + Date.now();
+        result.innerHTML =
+          '<p class="ok-note">Published to <code>press/' + data.fileName + '</code> — commit &amp; push to put it on ruffcutz.org.</p>' +
+          '<div class="result-head"><strong>' + (data.release.headline || "") + '</strong>' +
+          '<a href="' + url + '" target="_blank">Open full page ↗</a></div>' +
+          '<iframe src="' + url + '"></iframe>';
+      } catch (err) {
+        result.innerHTML = '<div class="err">' + (err.message || err) + "</div>";
+      } finally {
+        go.disabled = false; go.textContent = "Generate & Publish";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "ruffcutz-press-maker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Satirical-yet-unironic press-release maker for the Ruff Cutz Ethical Musical Collective. AI-generates releases into ../press/ for publishing on ruffcutz.org.",
+  "scripts": {
+    "maker": "node server.js",
+    "generate": "node generate.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0"
+  }
+}
